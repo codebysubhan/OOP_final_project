@@ -1,3 +1,8 @@
+import sqlite3 as db
+
+
+
+
 class DBManager:
     def __init__(self, db_connection):
         self.connection = db_connection  # Initialize your database connection
