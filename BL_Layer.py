@@ -1,6 +1,7 @@
+from integ_layer import DataIntegration
 class TicketManager:
     #__init__ accesses Integration layer
-    def __init__(self, integration_layer):
+    def __init__(self, integration_layer: DataIntegration):
         self.integration_layer = integration_layer()
 
     def buyTicket(self, fan, match, seat):
