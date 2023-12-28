@@ -260,7 +260,7 @@ def create_purchase_log():
     ]
 
     cur.executemany('''
-    INSERT INTO purchase_log 
+    INSERT INTO purchase_log
     (PURCHASE_ID, FAN_ID, TICKET_ID, MATCH_ID, PURCHASE_DATE, QUANTITY, TOTAL_AMOUNT, PAYMENT_METHOD) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ''', purchase_data)

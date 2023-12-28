@@ -1,6 +1,7 @@
 import sqlite3 as sql_db
 import dbpopulate
 import random
+from datetime import datetime
 class DBManager:
     def __init__(self, filename:str, con=None, cur=None):
         if con is None:
@@ -11,9 +12,38 @@ class DBManager:
         self.cur = cur
         print('DBManager Initialized!!!')
 
-    def buyTicketInDB(self, fan, match, seat):
-        # Logic to perform ticket purchase operation in the database
-        self.cur.execute("")
+    def buyTicketInDB(self, fan_id:int):
+        query = '''
+            select * from tickets where status = 1
+        '''
+        self.cur.execute(query)
+        data = self.cur.fetchone()
+        if len(data) == 0:
+            print('ERROR! All tickets are sold')
+        else:
+            purchase_data = [
+                self.create_new_purchase_id(),
+                fan_id,
+                data[0],
+                data[2],
+                datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                1,
+                random.choice([1200, 2500, 2000, 2700]),
+                random.choice(['Credit Card', 'Cash', 'PayPal'])
+            ]
+            query = '''
+                insert into purchase_log
+                (purchase_id, fan_id, ticket_id, match_id, purchase_date, quantity, total_amount, payment_method)
+                values (?, ?, ?, ?, ?, ?, ?, ?)
+            '''
+            self.cur.execute(query, purchase_data)
+            query0 = '''
+                update tickets
+                set status = 0
+                where id = ?
+            '''
+            self.cur.execute(query0, (data[0], ))
+            self.con.commit()
 
     def getAvailableTicketsFromDB(self, match:int):
         # Logic to retrieve available tickets for a match from the database
@@ -68,6 +98,15 @@ class DBManager:
         new_id = random.choice(list(set(range(1, 500)) - set(data)))
         return new_id
     
+    def create_new_purchase_id(self):
+        self.cur.execute('''
+        select purchase_id from purchase_log
+        ''')
+        data = self.cur.fetchall()
+        data = [i[0] for i in data]
+        new_id = random.choice(list(set(range(1, 500)) - set(data)))
+        return new_id
+
     def registerFanInDB(self, name:str, email:str, phone:str):
         self.cur.execute('''
             INSERT INTO fans (fan_id, name, email, phone)
@@ -85,13 +124,39 @@ class DBManager:
         print(out_str)
         return data[0]
 
-    def getFanPurchaseHistoryFromDB(self, fan_id):
-        # Logic to retrieve fan's purchase history from the database
-        pass
+    def getFanPurchaseHistoryFromDB(self, fan_id:int):
+        query = '''
+            select * from purchase_log where fan_id = ?
+        '''
+        self.cur.execute(query, (fan_id, ))
+        data = self.cur.fetchall()
+        out_str = 'ID\tF_ID\tTIC_ID\tMAT_ID\tPURCHASE_DATE\t\tQUAN\tTOTAL\tPAYMENT_METHOD\n'
+        for row in data:
+            out_str += '\t'.join(map(str, row))
+            out_str += '\n'
+        print(out_str)
 
-    def processRefundInDB(self, ticket_id):
-        # Logic to process ticket refund in the database
-        pass
+    def processRefundInDB(self, ticket_id:int):
+        query = '''
+            update purchase_log
+            set total_amount = - total_amount
+            where ticket_id = ?
+        '''
+        self.cur.execute(query, (ticket_id, ))
+        query0 = '''
+            update tickets
+            set status = 1
+            where id = ?
+        '''
+        self.cur.execute(query0, (ticket_id, ))
+        query1 = '''
+            update purchase_log
+            set PURCHASE_DATE = ?
+            where ticket_id = ?
+        '''
+        self.cur.execute(query1, (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ticket_id, ))
+        self.con.commit()
+        print(f'Refund successfull against ticket_id = {ticket_id}')
 
     def getStadiumDetailsFromDB(self, match_id:int):
         query = '''
@@ -126,5 +191,8 @@ def main():
     layer.getFanDetailsFromDB(1)
     layer.getStadiumDetailsFromDB(20)
     layer.getStadiumCapacityFromDB(15)
+    # layer.buyTicketInDB(1)
+    layer.getFanPurchaseHistoryFromDB(1)
+    # layer.processRefundInDB(1)
 if __name__ == "__main__":
     main()
