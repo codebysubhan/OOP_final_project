@@ -52,7 +52,8 @@ class DBManager:
         ''')
         tickets = self.cur.fetchall()
         print('Total available tickets are: ', len(tickets))
-        return tickets
+        out_str = f'Total available tickets are: {len(tickets)}\n{tickets}'
+        return out_str
 
     def checkTicketValidityInDB(self, ticket_id:int):
         self.cur.execute(f'''
@@ -61,22 +62,25 @@ class DBManager:
         data = self.cur.fetchall()
         try:
             if data[0][0] == 1:
-                print('Congratulations! ticket is valid!', data)
+                # print('Congratulations! ticket is valid!', data)
+                return f'Congratulations! ticket is valid!'
             else:
-                print(': ticket is not valid!')
+                # print(': ticket is not valid!')
+                return f': ticket is not valid!'
         except:
-            print('An error occurred!')
+            # print('An error occurred!')
+            return f'An error occurred!'
 
     def getMatchDetailsFromDB(self, match_id:int):
         self.cur.execute(f'''
         select match_id, schedule from matches where match_id = {match_id}
         ''')
         data = self.cur.fetchone()
-        print(data)
+        # print(data)
         id = data[0]
         timeofmatch = dbpopulate.datetime_converter(data[1])
-        print(f'Details for the match with id = {id} are below:\nSchedule\t---\t{timeofmatch}')
-        return data
+        out_str = (f'Details for the match with id = {id} are below:\nSchedule\t---\t{timeofmatch}')
+        return out_str
 
     def getMatchScheduleFromDB(self):
         self.cur.execute('''
@@ -84,10 +88,12 @@ class DBManager:
         ''')
         data = self.cur.fetchall()
         # print(data)
+        out_str = ''
         for row in data:
             id = row[0]
             timeofmatch = dbpopulate.datetime_converter(row[1])
-            print(f'Match id = {id}\tSchedule = {timeofmatch}')
+            out_str += f'Match id = {id}\tSchedule = {timeofmatch}\n'
+        return out_str
 
     def create_new_fan_id(self):
         self.cur.execute('''
@@ -122,7 +128,7 @@ class DBManager:
         data = self.cur.fetchall()
         out_str = f'Fan id = {fan_id}\nName: {data[0][0]}\nEmail: {data[0][1]}\nPhone: {data[0][2]}'
         print(out_str)
-        return data[0]
+        return out_str
 
     def getFanPurchaseHistoryFromDB(self, fan_id:int):
         query = '''
@@ -135,6 +141,7 @@ class DBManager:
             out_str += '\t'.join(map(str, row))
             out_str += '\n'
         print(out_str)
+        return out_str
 
     def processRefundInDB(self, ticket_id:int):
         query = '''
@@ -169,6 +176,7 @@ class DBManager:
         result = self.cur.fetchone()
         out_str = f'MATCH_ID = {match_id}\nStadium Nmae: {result[1]}\nStadium Capacity: {result[2]}'
         print(out_str)
+        return out_str
 
     def getStadiumCapacityFromDB(self, stadium_id:int):
         query = '''
@@ -178,21 +186,22 @@ class DBManager:
         result = self.cur.fetchone()[0]
         out_str = f'Stadium Capacity for Stadium ID = {stadium_id} is:\t{result}'
         print(out_str)
-        return result
+        return out_str
 
 def main():
     filename = "database.db"
     layer = DBManager(filename)
-    layer.getAvailableTicketsFromDB(5)
-    layer.checkTicketValidityInDB(2)
-    layer.getMatchDetailsFromDB(1)
-    layer.getMatchScheduleFromDB()
-    # layer.registerFanInDB("Abdullah", "abd@gmail.com", "03334568527")
-    layer.getFanDetailsFromDB(1)
-    layer.getStadiumDetailsFromDB(20)
-    layer.getStadiumCapacityFromDB(15)
-    # layer.buyTicketInDB(1)
-    layer.getFanPurchaseHistoryFromDB(1)
-    # layer.processRefundInDB(1)
-if __name__ == "__main__":
-    main()
+    return layer
+#     # layer.getAvailableTicketsFromDB(5)
+#     # layer.checkTicketValidityInDB(2)
+#     # layer.getMatchDetailsFromDB(1)
+#     # layer.getMatchScheduleFromDB()
+#     # # layer.registerFanInDB("Abdullah", "abd@gmail.com", "03334568527")
+#     return layer.getFanDetailsFromDB(1)
+#     # layer.getStadiumDetailsFromDB(20)
+#     # layer.getStadiumCapacityFromDB(15)
+#     # # layer.buyTicketInDB(1)
+#     # layer.getFanPurchaseHistoryFromDB(1)
+#     # layer.processRefundInDB(1)
+# if __name__ == "__main__":
+#     main()

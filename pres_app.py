@@ -91,6 +91,7 @@ class TicketApp:
 
 def main():
     root = tk.Tk()
+    root.geometry("1100x600")
     app = TicketApp(root)
     root.mainloop()
 
