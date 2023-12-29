@@ -119,7 +119,7 @@ class DBManager:
             VALUES (?, ?, ?, ?)
         ''', (self.create_new_fan_id(), name, email, phone))
         self.con.commit()
-        print('Fan added success!!!')
+        return f'Fan added success!!!'
 
     def getFanDetailsFromDB(self, fan_id:int):
         self.cur.execute(f'''
@@ -163,7 +163,7 @@ class DBManager:
         '''
         self.cur.execute(query1, (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ticket_id, ))
         self.con.commit()
-        print(f'Refund successfull against ticket_id = {ticket_id}')
+        return f'Refund successfull against ticket_id = {ticket_id}'
 
     def getStadiumDetailsFromDB(self, match_id:int):
         query = '''
