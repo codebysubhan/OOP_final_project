@@ -144,27 +144,35 @@ class DBManager:
         return out_str
 
     def processRefundInDB(self, ticket_id:int):
-        query = '''
-            update purchase_log
-            set total_amount = - total_amount
+        query_more = '''
+            select total_amount from purchase_log
             where ticket_id = ?
         '''
-        self.cur.execute(query, (ticket_id, ))
-        query0 = '''
-            update tickets
-            set status = 1
-            where id = ?
-        '''
-        self.cur.execute(query0, (ticket_id, ))
-        query1 = '''
-            update purchase_log
-            set PURCHASE_DATE = ?
-            where ticket_id = ?
-        '''
-        self.cur.execute(query1, (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ticket_id, ))
-        self.con.commit()
-        return f'Refund successfull against ticket_id = {ticket_id}'
-
+        self.cur.execute(query_more, (ticket_id, ))
+        data = self.cur.fetchone()
+        print(int(data[0]))
+        if data[0] > 0:
+            query = '''
+                update purchase_log
+                set total_amount = - total_amount
+                where ticket_id = ? AND total_amount > 0
+            '''
+            self.cur.execute(query, (ticket_id, ))
+            query0 = '''
+                update tickets
+                set status = 1
+                where id = ?
+            '''
+            self.cur.execute(query0, (ticket_id, ))
+            query1 = '''
+                update purchase_log
+                set PURCHASE_DATE = ?
+                where ticket_id = ?
+            '''
+            self.cur.execute(query1, (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ticket_id, ))
+            self.con.commit()
+            return f'Refund successfull against ticket_id = {ticket_id}'
+        return f'Ticket is already refunded! ticket_id = {ticket_id}'
     def getStadiumDetailsFromDB(self, match_id:int):
         query = '''
         SELECT stadiums.stadium_id, stadiums.name, stadiums.capacity
