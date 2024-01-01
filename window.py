@@ -7,7 +7,7 @@ root = Tk()
 root.title("Tickets")
 
 # main topic
-topic = Label(root, text="Ticket Management System", font=('Helvetica', 18))
+topic = Label(root, text="PSL Ticket Management System", font=('Helvetica', 18))
 topic.grid(row=0, column=0, padx=10, sticky=W)
 
 
@@ -56,16 +56,25 @@ screen_frame.insert("1.0", "No text to display at the moment...")
 
 
 def buy_ticket():
+    out_str = ''
     inst = db_layer.main()
-    inst.buyTicketInDB(int(t0.get()))
+    if t0.get() == '':
+        out_str = 'Please enter input in data fields before proceeding!!!'
+    else:
+        inst.buyTicketInDB(int(t0.get()))
+        out_str = "Ticket Buy Success!!!"
     t0.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
-    screen_frame.insert("1.0", "Ticket Buy Success!!!")
+    screen_frame.insert("1.0", out_str)
 
 def get_available_tickets():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.getAvailableTicketsFromDB(int(t_more.get()))
+    if t_more.get() == '':
+        out_str = 'Please enter input in data fields before proceeding!!!'
+    else:
+        out_str = inst.getAvailableTicketsFromDB(int(t_more.get()))
     t_more.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
@@ -107,8 +116,15 @@ b1.grid(row=5, column=0, sticky=W)
 
 
 def reg_new_fan():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.registerFanInDB(t1.get(), t2.get(), t3.get())
+    chk = [t1.get(), t2.get(), t3.get()]
+    for i in chk:
+        if i == '':
+            out_str = 'Please provide input in data fields!!!\n'
+            break
+    if out_str == '':
+        out_str = inst.registerFanInDB(t1.get(), t2.get(), t3.get())
     t1.delete(0, END)
     t2.delete(0, END)
     t3.delete(0, END)
@@ -156,24 +172,36 @@ t3.grid(row=1, column=5, sticky=W)
 
 
 def ticket_valid():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.checkTicketValidityInDB(int(t4.get()))
+    if t4.get() == '':
+        out_str = 'Please provide input in data fields!!!'
+    else:
+        out_str = inst.checkTicketValidityInDB(int(t4.get()))
     t4.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
     screen_frame.insert("1.0", out_str)
 
 def get_fan_details():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.getFanDetailsFromDB(int(t5.get()))
+    if t5.get() == '':
+        out_str = 'Please provide input in data fields!!!'
+    else:
+        out_str = inst.getFanDetailsFromDB(int(t5.get()))
     t5.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
     screen_frame.insert("1.0", out_str)
 
 def get_match_details():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.getMatchDetailsFromDB(int(t6.get()))
+    if t6.get() == '':
+        out_str = 'Please provide input in data fields!!!'
+    else:
+        out_str = inst.getMatchDetailsFromDB(int(t6.get()))
     t6.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
@@ -242,32 +270,48 @@ b6.grid(row=5, column=3, sticky=W+E)
 
 
 def get_purchase_hist():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.getFanPurchaseHistoryFromDB(int(t7.get()))
+    if t7.get() == '':
+        out_str = 'Please provide input in data fields!!!'
+    else:
+        out_str = inst.getFanPurchaseHistoryFromDB(int(t7.get()))
     t7.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
     screen_frame.insert("1.0", out_str)
 
 def get_stadium_details():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.getStadiumDetailsFromDB(int(t9.get()))
+    if t9.get() == '':
+        out_str = 'Please provide input in data fields!!!'
+    else:
+        out_str = inst.getStadiumDetailsFromDB(int(t9.get()))
     t9.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
     screen_frame.insert("1.0", out_str)
 
 def get_stadium_capacity():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.getStadiumCapacityFromDB(int(t10.get()))
+    if t10.get() == '':
+        out_str = 'Please provide input in data fields!!!'
+    else:
+        out_str = inst.getStadiumCapacityFromDB(int(t10.get()))
     t10.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
     screen_frame.insert("1.0", out_str)
 
 def refund_process():
+    out_str = ''
     inst = db_layer.main()
-    out_str = inst.processRefundInDB(int(t8.get()))
+    if t8.get() == '':
+        out_str = 'Please provide input in data fields!!!'
+    else:
+        out_str = inst.processRefundInDB(int(t8.get()))
     t8.delete(0, END)
     if screen_frame.get("1.0", "end-1c") != "":
         screen_frame.delete("1.0", END)
@@ -347,4 +391,3 @@ b10.grid(row=6, column=3, sticky=W)
 
 root.geometry("1100x600")
 root.mainloop()
-
