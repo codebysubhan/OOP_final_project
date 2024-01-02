@@ -1,0 +1,549 @@
+from tkinter import *
+from tkinter import ttk
+import back_end
+root = Tk()
+root.title("Tickets")
+# main topic
+topic = Label(root, text="PSL Ticket Management System", font=('Helvetica', 18))
+topic.grid(row=0, column=0, padx=10, sticky=W, columnspan=3)
+
+# creating label frames
+# frame two
+f_two = LabelFrame(root, text="SCREEN / FRAME 2", borderwidth=1, padx=5, pady=5, width=1090, height=300)
+f_two.grid_propagate(FALSE)
+f_two.grid(row=1, column=0, sticky=W, columnspan=3)
+# frame one
+f_one = LabelFrame(root, text="BASIC FUNCTIONS", borderwidth=1, width=218, height=250)
+f_one.grid_propagate(FALSE)
+f_one.grid(row=2, column=0, padx=5, pady=5, sticky=W)
+# frame advamced
+f_three = LabelFrame(root, text="ADVANCED FUNCTIONS", borderwidth=1, width=200, height=250)
+f_three.grid_propagate(FALSE)
+f_three.grid(row=2, column=2, padx=5, pady=5, sticky=W)
+
+
+# labelframe for tabs
+label_frame_tab = LabelFrame(root, text="Tabs", borderwidth=1, width=654, height=250)
+label_frame_tab.grid_propagate(FALSE)
+label_frame_tab.grid(row=2, column=1, sticky=W)
+
+# tabs
+main_tab_container = ttk.Notebook(label_frame_tab)
+main_tab_container.grid_propagate(FALSE)
+main_tab_container.grid(sticky=W)
+
+def resolve_curr_tab():
+    tab_id = main_tab_container.index(main_tab_container.select())
+    # print(new_curr)
+    tot_tabs = main_tab_container.winfo_children()
+    print('total tabs = ', len(tot_tabs))
+    new_curr = len(tot_tabs) - 1
+    s = ttk.Style()
+    s.theme_use('default')
+    s.configure('TNotebook.Tab', background="#A8B3FD")
+    # s.map("TNotebook", background= [("selected", "#A8B3FD")])
+
+    try:
+        main_tab_container.select(new_curr)
+    except:
+        pass
+
+
+
+
+
+
+
+
+
+
+def add_tab0():
+    # tabs frame
+    frame_tab_0 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_0.grid_propagate(FALSE)
+    frame_tab_0.grid(sticky = W)
+
+    # label
+    l3 = Label(frame_tab_0, text='Enter Match ID: ')
+    l3.grid(row=0, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_0, width=10, borderwidth=2)
+    t1.grid(row=0, column=1, sticky=W)
+
+    # submit but
+    sub_but = Button(frame_tab_0, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=1, column=1, sticky=E, rowspan=2)
+
+    # adding tabs
+    main_tab_container.add(frame_tab_0, text="Tickets")
+    resolve_curr_tab()
+
+def add_tab1():
+    # tabs frame
+    frame_tab_1 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_1.grid_propagate(FALSE)
+    frame_tab_1.grid(sticky=W)
+
+    # label
+    l3 = Label(frame_tab_1, text='Enter Ticket ID: ')
+    l3.grid(row=0, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_1, width=10, borderwidth=2)
+    t1.grid(row=0, column=1, sticky=W)
+
+    # submit but
+    sub_but = Button(frame_tab_1, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=1, column=1, sticky=E, rowspan=2)
+
+    # adding tabs
+    main_tab_container.add(frame_tab_1, text="Ticket Validity")
+    resolve_curr_tab()
+    
+def add_tab2():
+    # tabs frame
+    frame_tab_2 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_2.grid_propagate(FALSE)
+    frame_tab_2.grid(sticky=W)
+
+    l0 = Label(frame_tab_2, text='Please fill one or more options below: ')
+    l0.grid(row=0, column=0, sticky=W, columnspan=2)
+    
+    # label
+    l3 = Label(frame_tab_2, text='Enter Fan ID: ')
+    l3.grid(row=1, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_2, width=10, borderwidth=2)
+    t1.grid(row=1, column=1, sticky=W)
+
+    # label
+    l4 = Label(frame_tab_2, text='Enter Fan CNIC: ')
+    l4.grid(row=2, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_2, width=10, borderwidth=2)
+    t1.grid(row=2, column=1, sticky=W)
+    
+    # submit but
+    sub_but = Button(frame_tab_2, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=1, sticky=E, rowspan=2)
+
+
+    # adding tabs
+    main_tab_container.add(frame_tab_2, text="Fan Details")
+    resolve_curr_tab()
+
+def add_tab3():
+    # tabs frame
+    frame_tab_3 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_3.grid_propagate(FALSE)
+    frame_tab_3.grid(sticky=W)
+
+    l0 = Label(frame_tab_3, text='Please fill one or more options below: ')
+    l0.grid(row=0, column=0, sticky=W, columnspan=2)
+
+    # label
+    l3 = Label(frame_tab_3, text='Enter Ticket ID: ')
+    l3.grid(row=1, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_3, width=10, borderwidth=2)
+    t1.grid(row=1, column=1, sticky=W)
+
+    # label
+    l4 = Label(frame_tab_3, text='Enter Match ID: ')
+    l4.grid(row=2, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_3, width=10, borderwidth=2)
+    t1.grid(row=2, column=1, sticky=W)
+    
+    # submit but
+    sub_but = Button(frame_tab_3, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=1, sticky=E, rowspan=2)
+
+
+
+    # adding tabs
+    main_tab_container.add(frame_tab_3, text="Match Details")
+    resolve_curr_tab()
+
+def add_tab4():
+    # tabs frame
+    frame_tab_4 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_4.grid_propagate(FALSE)
+    frame_tab_4.grid(sticky=W)
+
+    l0 = Label(frame_tab_4, text='Please fill one or more options below: ')
+    l0.grid(row=0, column=0, sticky=W, columnspan=2)
+    
+    # label
+    l3 = Label(frame_tab_4, text='Enter Fan ID: ')
+    l3.grid(row=1, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_4, width=10, borderwidth=2)
+    t1.grid(row=1, column=1, sticky=W)
+
+    # label
+    l4 = Label(frame_tab_4, text='Enter Fan CNIC: ')
+    l4.grid(row=2, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_4, width=10, borderwidth=2)
+    t1.grid(row=2, column=1, sticky=W)
+    
+    # submit but
+    sub_but = Button(frame_tab_4, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=1, sticky=E, rowspan=2)
+
+    # adding tabs
+    main_tab_container.add(frame_tab_4, text="Purchase History")
+    resolve_curr_tab()
+
+def add_tab5():
+    # tabs frame
+    frame_tab_5 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_5.grid_propagate(FALSE)
+    frame_tab_5.grid(sticky=W)
+
+    l0 = Label(frame_tab_5, text='Please fill one or more options below: ')
+    l0.grid(row=0, column=0, sticky=W, columnspan=2)
+    
+    # label
+    l3 = Label(frame_tab_5, text='Enter Stadium ID: ')
+    l3.grid(row=1, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_5, width=10, borderwidth=2)
+    t1.grid(row=1, column=1, sticky=W)
+
+    # label
+    l4 = Label(frame_tab_5, text='Enter Ticket ID: ')
+    l4.grid(row=2, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_5, width=10, borderwidth=2)
+    t1.grid(row=2, column=1, sticky=W)
+    
+    # submit but
+    sub_but = Button(frame_tab_5, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=1, sticky=E, rowspan=2)
+
+    # adding tabs
+    main_tab_container.add(frame_tab_5, text="Stadium Details")
+    resolve_curr_tab()
+
+def add_tab6():
+    # tabs frame
+    frame_tab_6 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_6.grid_propagate(FALSE)
+    frame_tab_6.grid(sticky=W)
+
+    l0 = Label(frame_tab_6, text='Please fill one or more options below: ')
+    l0.grid(row=0, column=0, sticky=W, columnspan=2)
+    
+    # label
+    l3 = Label(frame_tab_6, text='Enter Stadium ID: ')
+    l3.grid(row=1, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_6, width=10, borderwidth=2)
+    t1.grid(row=1, column=1, sticky=W)
+
+    # label
+    l4 = Label(frame_tab_6, text='Enter Ticket ID: ')
+    l4.grid(row=2, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_6, width=10, borderwidth=2)
+    t1.grid(row=2, column=1, sticky=W)
+    
+    # submit but
+    sub_but = Button(frame_tab_6, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=1, sticky=E, rowspan=2)
+
+    main_tab_container.add(frame_tab_6, text="Stadium Capacity")
+    resolve_curr_tab()
+
+
+def add_tab_pur_ticket():
+    # tabs frame
+    frame_tab_7 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_7.grid_propagate(FALSE)
+    frame_tab_7.grid(sticky=W)
+    # label
+    l0 = Label(frame_tab_7, text='Choose Match of Your Choice: ')
+    l0.grid(row=0, column=0, sticky=W)
+    # options
+    options = ['Match 1', 'Match 2', 'Match 3', 'Match 4']
+    opt0 = OptionMenu(frame_tab_7, StringVar(value=options[0]), *options)
+    opt0.grid(row=0, column=1, sticky=W)
+
+    # label
+    l1 = Label(frame_tab_7, text='Choose Ticket Price: ')
+    l1.grid(row=1, column=0, sticky=W)
+    # options
+    tik_options = ['1', '2', '3', '4']
+    opt1 = OptionMenu(frame_tab_7, StringVar(value=tik_options[0]), *tik_options)
+    opt1.grid(row=1, column=1, sticky=W)
+
+    # label
+    l2 = Label(frame_tab_7, text='Seat will be selected Automatically!!!')
+    l2.grid(row=2, column=0, sticky=W)
+
+    # label
+    l3 = Label(frame_tab_7, text='Enter Personal Details: \nFan will be created automatically if not exists!!!')
+    l3.grid(row=4, column=0, sticky=W, columnspan=2)
+
+    # label
+    l3_name = Label(frame_tab_7, text='Name: ')
+    l3_name.grid(row=5, column=0, sticky=W)
+    # entry
+    t0 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t0.grid(row=5, column=1, sticky=W)
+
+    # label
+    l3_cnic = Label(frame_tab_7, text='CNIC: ')
+    l3_cnic.grid(row=6, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t1.grid(row=6, column=1, sticky=W)
+
+    # label
+    l3_phone = Label(frame_tab_7, text='Phone: ')
+    l3_phone.grid(row=7, column=0, sticky=W)
+    # entry
+    t2 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t2.grid(row=7, column=1, sticky=W)
+
+    # label
+    l3_email = Label(frame_tab_7, text='Email: ')
+    l3_email.grid(row=1, column=2, sticky=W)
+    # entry
+    t3 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t3.grid(row=1, column=3, sticky=W)
+
+
+    # label
+    l4 = Label(frame_tab_7, text='-------- Payment Details --------')
+    l4.grid(row=0, column=2, sticky=W, columnspan=2)
+    l4_pay = Label(frame_tab_7, text='Select Payment Method: ')
+    l4_pay.grid(row=2, column=2, sticky=W)
+    # options
+    pay_options = ['BANK TRANSFER', 'DEBIT CARD', 'JAZZCASH']
+    opt2 = OptionMenu(frame_tab_7, StringVar(value=pay_options[0]), *pay_options)
+    opt2.grid(row=2, column=3, sticky=W)
+    # submit but
+    sub_but = Button(frame_tab_7, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=3, sticky=E, rowspan=2)
+
+    main_tab_container.add(frame_tab_7, text="Purchase Ticket")
+    resolve_curr_tab()
+
+def add_tab_new_fan():
+    # tabs frame
+    frame_tab_8 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_8.grid_propagate(FALSE)
+    frame_tab_8.grid(sticky=W)
+
+    # label
+    l3 = Label(frame_tab_8, text='Enter Personal Details: ')
+    l3.grid(row=0, column=0, sticky=W, columnspan=2)
+
+    # label
+    l3_name = Label(frame_tab_8, text='Name: ')
+    l3_name.grid(row=1, column=0, sticky=W)
+    # entry
+    t0 = Entry(frame_tab_8, width=10, borderwidth=2)
+    t0.grid(row=1, column=1, sticky=W)
+
+    # label
+    l3_cnic = Label(frame_tab_8, text='CNIC: ')
+    l3_cnic.grid(row=2, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_8, width=10, borderwidth=2)
+    t1.grid(row=2, column=1, sticky=W)
+
+    # label
+    l3_phone = Label(frame_tab_8, text='Phone: ')
+    l3_phone.grid(row=3, column=0, sticky=W)
+    # entry
+    t2 = Entry(frame_tab_8, width=10, borderwidth=2)
+    t2.grid(row=3, column=1, sticky=W)
+
+    # label
+    l3_email = Label(frame_tab_8, text='Email: ')
+    l3_email.grid(row=4, column=0, sticky=W)
+    # entry
+    t3 = Entry(frame_tab_8, width=10, borderwidth=2)
+    t3.grid(row=4, column=1, sticky=W)
+
+
+    # label
+    l4 = Label(frame_tab_8, text='-------- Payment Details --------')
+    l4.grid(row=0, column=2, sticky=W, columnspan=2)
+    l4_pay = Label(frame_tab_8, text='Select Payment Method: ')
+    l4_pay.grid(row=2, column=2, sticky=W)
+    # options
+    pay_options = ['BANK TRANSFER', 'DEBIT CARD', 'JAZZCASH']
+    opt2 = OptionMenu(frame_tab_8, StringVar(value=pay_options[0]), *pay_options)
+    opt2.grid(row=2, column=3, sticky=W)
+    # submit but
+    sub_but = Button(frame_tab_8, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=3, sticky=E, rowspan=2)
+
+    main_tab_container.add(frame_tab_8, text="New Fan")
+    resolve_curr_tab()
+
+def add_tab_refund_ticket():
+    # tabs frame
+    frame_tab_9 = LabelFrame(main_tab_container, width=652, height=205)
+    frame_tab_9.grid_propagate(FALSE)
+    frame_tab_9.grid(sticky=W)
+
+    # label
+    l3 = Label(frame_tab_9, text='Enter FAN ID: ')
+    l3.grid(row=0, column=0, sticky=W)
+    # entry
+    t0 = Entry(frame_tab_9, width=10, borderwidth=2)
+    t0.grid(row=0, column=1, sticky=W)
+
+    # label
+    l4 = Label(frame_tab_9, text='Enter Ticket ID: ')
+    l4.grid(row=1, column=0, sticky=W)
+    # entry
+    t1 = Entry(frame_tab_9, width=10, borderwidth=2)
+    t1.grid(row=1, column=1, sticky=W)
+
+    l4_pay = Label(frame_tab_9, text='Select Refund Method: ')
+    l4_pay.grid(row=2, column=2, sticky=W)
+    # options
+    pay_options = ['BANK TRANSFER', 'DEBIT CARD', 'JAZZCASH']
+    opt2 = OptionMenu(frame_tab_9, StringVar(value=pay_options[0]), *pay_options)
+    opt2.grid(row=2, column=3, sticky=W)
+
+    # submit but
+    sub_but = Button(frame_tab_9, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but.grid(row=3, column=3, sticky=E, rowspan=2)
+
+    main_tab_container.add(frame_tab_9, text="Refund")
+    resolve_curr_tab()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def clear_scr():
+    out_str = 'No text to display at the moment...'
+    if screen_frame.get("1.0", "end-1c") != "":
+        screen_frame.delete("1.0", END)
+    screen_frame.insert("1.0", out_str)
+
+
+# frame = screen / frame 2
+screen_frame = Text(f_two, height=14, width=100)
+screen_frame.grid(row=0, column=0)
+screen_frame.insert("1.0", "No text to display at the moment...")
+# screen separator
+sep = ttk.Separator(f_two, orient='horizontal')
+sep.grid(row=1, column=0, sticky=W+E, padx=0, pady=5)
+# basic buttons
+basic_button_0 = Button(f_two, text="Show Match Schedules", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10))
+basic_button_0.grid(row=2, column=0, sticky=W)
+basic_button_1 = Button(f_two, text="Clear Screen", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff', command=clear_scr)
+basic_button_1.grid(row=2, column=0, sticky=E)
+
+# screen 2
+screen_frame_2 = Text(f_two, height=18, width=30, bg='#ECECEC')
+screen_frame_2.grid(row=0, column=1, padx=15, rowspan=6)
+screen_frame_2.insert("1.0", "No text to display at the moment...")
+
+
+
+# frame = frame 1
+# buy ticket<tab>         register new fan<tab>   get check ticket validity
+# Get fan details         get match details           get purchase history
+# refund process<tab>     get stadium details         get stadium capacity
+
+# basic functions
+avail_ticket_button = Button(f_one, text="Available Tickets", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab0)
+avail_ticket_button.grid(row=0, column=1, sticky=W+E)
+validity_ticket_button = Button(f_one, text="Ticket Validity", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab1)
+validity_ticket_button.grid(row=1, column=1, sticky=W+E)
+fan_details_button = Button(f_one, text="Fan Details", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab2)
+fan_details_button.grid(row=2, column=1, sticky=W+E)
+match_details_button = Button(f_one, text="Match Details", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab3)
+match_details_button.grid(row=3, column=1, sticky=W+E)
+history_button = Button(f_one, text="Purchase History", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab4)
+history_button.grid(row=4, column=1, sticky=W+E)
+stadium_details_button = Button(f_one, text="Stadium Details", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab5)
+stadium_details_button.grid(row=5, column=1, sticky=W+E)
+stadium_capacity_button = Button(f_one, text="Stadium Capacity", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab6)
+stadium_capacity_button.grid(row=6, column=1, sticky=W+E)
+
+
+# advanced functions
+purchase_ticket_button = Button(f_three, text="Purchase Ticket", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab_pur_ticket)
+purchase_ticket_button.grid(row=0, column=1, sticky=W+E)
+reg_new_fan_button = Button(f_three, text="Register New Fan", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab_new_fan)
+reg_new_fan_button.grid(row=1, column=1, sticky=W+E)
+refund_button = Button(f_three, text="Refund Ticket", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), command=add_tab_refund_ticket)
+refund_button.grid(row=2, column=1, sticky=W+E)
+
+sepa = ttk.Separator(f_three, orient='horizontal')
+sepa.grid(row=3, column=1, sticky=W+E, padx=10, pady=10)
+
+
+def hide_one_tab():
+    main_tab_container.forget("current")
+
+def hide_all_tabs():
+    while True:
+        try:
+            hide_one_tab()
+        except:
+            break
+
+close_current_button = Button(f_three, text="Close Current Tab> X", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff', command=hide_one_tab)
+close_current_button.grid(row=4, column=1, sticky=W+E)
+close_all_button = Button(f_three, text="Close All Tabs> O", padx=30, pady= 2, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff', command=hide_all_tabs)
+close_all_button.grid(row=5, column=1, sticky=W+E)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+root.resizable(0, 0)
+root.geometry("1100x600")
+root.mainloop()
