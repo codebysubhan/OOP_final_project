@@ -403,6 +403,32 @@ def add_tab6():
     main_tab_container.add(frame_tab_6, text="Stadium Capacity")
     resolve_curr_tab()
 
+def purchase_func_backend():
+    if t0_name0.get() and t1_cnic00.get() and t2_phone0.get() and t3_email0.get():
+        inst = back_end.main()
+        try:
+            enc = opt1_var.get()
+            enc = enc.split(',')
+            out_str = inst.purchase_ticket(opt0_var.get()[-1], enc[0], t0_name0.get(), t1_cnic00.get(), t2_phone0.get(), t3_email0.get(), opt2_var00.get())
+            if screen_frame.get("1.0", "end-1c") != "":
+                screen_frame.delete("1.0", END)
+            screen_frame.insert("1.0", out_str)
+        except:
+            out_str = 'Unexpected Error Occurred00000000!!!'
+            if screen_frame.get("1.0", "end-1c") != "":
+                screen_frame.delete("1.0", END)
+            screen_frame.insert("1.0", out_str)
+    else:
+        out_str = 'Please provide complete inputs in datafields!!!'
+        if screen_frame.get("1.0", "end-1c") != "":
+            screen_frame.delete("1.0", END)
+        screen_frame.insert("1.0", out_str)
+    t0_name0.delete(0, END)
+    t1_cnic00.delete(0, END)
+    t2_phone0.delete(0, END)
+    t3_email0.delete(0, END)
+
+
 
 def add_tab_pur_ticket():
     # tabs frame
@@ -410,19 +436,23 @@ def add_tab_pur_ticket():
     frame_tab_7.grid_propagate(FALSE)
     frame_tab_7.grid(sticky=W)
     # label
-    l0 = Label(frame_tab_7, text='Choose Match of Your Choice: ')
+    l0 = Label(frame_tab_7, text='Choose Match_id of Your Choice: ')
     l0.grid(row=0, column=0, sticky=W)
     # options
-    options = ['Match 1', 'Match 2', 'Match 3', 'Match 4']
-    opt0 = OptionMenu(frame_tab_7, StringVar(value=options[0]), *options)
+    options = ['Match 1', 'Match 2', 'Match 3', 'Match 4', 'Match 5', 'Match 6', 'Match 7', 'Match 8', 'Match 9', 'Match 10']
+    global opt0_var
+    opt0_var = StringVar(value=options[0])
+    opt0 = OptionMenu(frame_tab_7, opt0_var, *options)
     opt0.grid(row=0, column=1, sticky=W)
 
     # label
-    l1 = Label(frame_tab_7, text='Choose Ticket Price: ')
+    l1 = Label(frame_tab_7, text='Choose Ticket Enclosure: ')
     l1.grid(row=1, column=0, sticky=W)
     # options
-    tik_options = ['1', '2', '3', '4']
-    opt1 = OptionMenu(frame_tab_7, StringVar(value=tik_options[0]), *tik_options)
+    tik_options = ['Premium, 10000', 'VIP, 8000', 'First Class, 5000', 'General, 2000']
+    global opt1_var
+    opt1_var = StringVar(value=tik_options[0])
+    opt1 = OptionMenu(frame_tab_7, opt1_var, *tik_options)
     opt1.grid(row=1, column=1, sticky=W)
 
     # label
@@ -437,29 +467,33 @@ def add_tab_pur_ticket():
     l3_name = Label(frame_tab_7, text='Name: ')
     l3_name.grid(row=5, column=0, sticky=W)
     # entry
-    t0 = Entry(frame_tab_7, width=10, borderwidth=2)
-    t0.grid(row=5, column=1, sticky=W)
+    global t0_name0
+    t0_name0 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t0_name0.grid(row=5, column=1, sticky=W)
 
     # label
     l3_cnic = Label(frame_tab_7, text='CNIC: ')
     l3_cnic.grid(row=6, column=0, sticky=W)
     # entry
-    t1 = Entry(frame_tab_7, width=10, borderwidth=2)
-    t1.grid(row=6, column=1, sticky=W)
+    global t1_cnic00
+    t1_cnic00 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t1_cnic00.grid(row=6, column=1, sticky=W)
 
     # label
     l3_phone = Label(frame_tab_7, text='Phone: ')
     l3_phone.grid(row=7, column=0, sticky=W)
     # entry
-    t2 = Entry(frame_tab_7, width=10, borderwidth=2)
-    t2.grid(row=7, column=1, sticky=W)
+    global t2_phone0
+    t2_phone0 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t2_phone0.grid(row=7, column=1, sticky=W)
 
     # label
     l3_email = Label(frame_tab_7, text='Email: ')
     l3_email.grid(row=1, column=2, sticky=W)
     # entry
-    t3 = Entry(frame_tab_7, width=10, borderwidth=2)
-    t3.grid(row=1, column=3, sticky=W)
+    global t3_email0
+    t3_email0 = Entry(frame_tab_7, width=10, borderwidth=2)
+    t3_email0.grid(row=1, column=3, sticky=W)
 
 
     # label
@@ -469,21 +503,34 @@ def add_tab_pur_ticket():
     l4_pay.grid(row=2, column=2, sticky=W)
     # options
     pay_options = ['BANK TRANSFER', 'DEBIT CARD', 'JAZZCASH']
-    opt2 = OptionMenu(frame_tab_7, StringVar(value=pay_options[0]), *pay_options)
+    global opt2_var00
+    opt2_var00 = StringVar(value=pay_options[0])
+    opt2 = OptionMenu(frame_tab_7, opt2_var00, *pay_options)
     opt2.grid(row=2, column=3, sticky=W)
     # submit but
-    sub_but = Button(frame_tab_7, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but = Button(frame_tab_7, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff', command=purchase_func_backend)
     sub_but.grid(row=3, column=3, sticky=E, rowspan=2)
 
     main_tab_container.add(frame_tab_7, text="Purchase Ticket")
     resolve_curr_tab()
 
 
-
-
-
-
-
+def register_new_fan_backend():
+    inst = back_end.main()
+    try:
+        out_str = inst.register_new_fan(t0_name.get(), t1_cnic0.get(), t2_phone.get(), t3_email.get(), opt2_var.get())
+        t0_name.delete(0, END)
+        t1_cnic0.delete(0, END)
+        t2_phone.delete(0, END)
+        t3_email.delete(0, END)
+        if screen_frame.get("1.0", "end-1c") != "":
+            screen_frame.delete("1.0", END)
+        screen_frame.insert("1.0", out_str)
+    except:
+        out_str = 'Unexpected Error Occurred!!!'
+        if screen_frame.get("1.0", "end-1c") != "":
+            screen_frame.delete("1.0", END)
+        screen_frame.insert("1.0", out_str)
 
 
 def add_tab_new_fan():
@@ -500,29 +547,33 @@ def add_tab_new_fan():
     l3_name = Label(frame_tab_8, text='Name: ')
     l3_name.grid(row=1, column=0, sticky=W)
     # entry
-    t0 = Entry(frame_tab_8, width=10, borderwidth=2)
-    t0.grid(row=1, column=1, sticky=W)
+    global t0_name
+    t0_name = Entry(frame_tab_8, width=10, borderwidth=2)
+    t0_name.grid(row=1, column=1, sticky=W)
 
     # label
     l3_cnic = Label(frame_tab_8, text='CNIC: ')
     l3_cnic.grid(row=2, column=0, sticky=W)
     # entry
-    t1 = Entry(frame_tab_8, width=10, borderwidth=2)
-    t1.grid(row=2, column=1, sticky=W)
+    global t1_cnic0
+    t1_cnic0 = Entry(frame_tab_8, width=10, borderwidth=2)
+    t1_cnic0.grid(row=2, column=1, sticky=W)
 
     # label
     l3_phone = Label(frame_tab_8, text='Phone: ')
     l3_phone.grid(row=3, column=0, sticky=W)
     # entry
-    t2 = Entry(frame_tab_8, width=10, borderwidth=2)
-    t2.grid(row=3, column=1, sticky=W)
+    global t2_phone
+    t2_phone = Entry(frame_tab_8, width=10, borderwidth=2)
+    t2_phone.grid(row=3, column=1, sticky=W)
 
     # label
     l3_email = Label(frame_tab_8, text='Email: ')
     l3_email.grid(row=4, column=0, sticky=W)
     # entry
-    t3 = Entry(frame_tab_8, width=10, borderwidth=2)
-    t3.grid(row=4, column=1, sticky=W)
+    global t3_email
+    t3_email = Entry(frame_tab_8, width=10, borderwidth=2)
+    t3_email.grid(row=4, column=1, sticky=W)
 
 
     # label
@@ -532,14 +583,40 @@ def add_tab_new_fan():
     l4_pay.grid(row=2, column=2, sticky=W)
     # options
     pay_options = ['BANK TRANSFER', 'DEBIT CARD', 'JAZZCASH']
-    opt2 = OptionMenu(frame_tab_8, StringVar(value=pay_options[0]), *pay_options)
+    global opt2_var
+    opt2_var = StringVar(value=pay_options[0])
+    opt2 = OptionMenu(frame_tab_8, opt2_var, *pay_options)
     opt2.grid(row=2, column=3, sticky=W)
     # submit but
-    sub_but = Button(frame_tab_8, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but = Button(frame_tab_8, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff', command=register_new_fan_backend)
     sub_but.grid(row=3, column=3, sticky=E, rowspan=2)
 
     main_tab_container.add(frame_tab_8, text="New Fan")
     resolve_curr_tab()
+
+
+def refund_func():
+    if t0_fan_id.get() and t1_ticket_id010.get():
+        inst = back_end.main()
+        try:
+            out_str = inst.refund_payment(t0_fan_id.get(), t1_ticket_id010.get(), opt2_var0.get())
+            t1_ticket_id010.delete(0, END)
+            if screen_frame.get("1.0", "end-1c") != "":
+                screen_frame.delete("1.0", END)
+            screen_frame.insert("1.0", out_str)
+        except:
+            out_str = 'Unexpected Error Occurred!!!'
+            if screen_frame.get("1.0", "end-1c") != "":
+                screen_frame.delete("1.0", END)
+            screen_frame.insert("1.0", out_str)
+    else:
+        out_str = 'Please provide complete inputs in datafields!!!'
+        if screen_frame.get("1.0", "end-1c") != "":
+            screen_frame.delete("1.0", END)
+        screen_frame.insert("1.0", out_str)
+    t0_fan_id.delete(0, END)
+    t1_ticket_id010.delete(0, END)
+
 
 def add_tab_refund_ticket():
     # tabs frame
@@ -551,25 +628,29 @@ def add_tab_refund_ticket():
     l3 = Label(frame_tab_9, text='Enter FAN ID: ')
     l3.grid(row=0, column=0, sticky=W)
     # entry
-    t0 = Entry(frame_tab_9, width=10, borderwidth=2)
-    t0.grid(row=0, column=1, sticky=W)
+    global t0_fan_id
+    t0_fan_id = Entry(frame_tab_9, width=10, borderwidth=2)
+    t0_fan_id.grid(row=0, column=1, sticky=W)
 
     # label
     l4 = Label(frame_tab_9, text='Enter Ticket ID: ')
     l4.grid(row=1, column=0, sticky=W)
     # entry
-    t1 = Entry(frame_tab_9, width=10, borderwidth=2)
-    t1.grid(row=1, column=1, sticky=W)
+    global t1_ticket_id010
+    t1_ticket_id010 = Entry(frame_tab_9, width=10, borderwidth=2)
+    t1_ticket_id010.grid(row=1, column=1, sticky=W)
 
     l4_pay = Label(frame_tab_9, text='Select Refund Method: ')
     l4_pay.grid(row=2, column=2, sticky=W)
     # options
     pay_options = ['BANK TRANSFER', 'DEBIT CARD', 'JAZZCASH']
-    opt2 = OptionMenu(frame_tab_9, StringVar(value=pay_options[0]), *pay_options)
+    global opt2_var0
+    opt2_var0 = StringVar(value=pay_options[0])
+    opt2 = OptionMenu(frame_tab_9, opt2_var0, *pay_options)
     opt2.grid(row=2, column=3, sticky=W)
 
     # submit but
-    sub_but = Button(frame_tab_9, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff')
+    sub_but = Button(frame_tab_9, text="Submit", padx=20, pady= 0, borderwidth=3, font=('sans-serif', 10), bg='#5A8AFF', fg='#ffffff', command=refund_func)
     sub_but.grid(row=3, column=3, sticky=E, rowspan=2)
 
     main_tab_container.add(frame_tab_9, text="Refund")
