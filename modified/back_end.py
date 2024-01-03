@@ -290,6 +290,16 @@ class DBManager:
         out_str = f'(Auto Updated after every\n5 seconds) \n\nTotal Revenue Generated: \n{total_revenue} Rs'
         return out_str
 
+    def create_new_fan_id(self):
+        query = '''
+            SELECT fan_id
+            FROM fan
+        '''
+        self.cur.execute(query)
+        data = self.cur.fetchall()
+        data = [row[0] for row in data]
+        return max(data) + 1
+
     def register_new_fan(self, name:str, cnic:str, phone: str, email:str, payment_method: str):
         if name and cnic and phone and email and payment_method:
             query = '''
@@ -304,7 +314,7 @@ class DBManager:
                     INSERT INTO fan (fan_id, name, cnic, phone_number, email, payment_method)
                     VALUES (?, ?, ?, ?, ?, ?);
                 '''
-                self.cur.execute(query00, (name, cnic, phone, email, payment_method))
+                self.cur.execute(query00, (self.create_new_fan_id(), name, cnic, phone, email, payment_method))
                 self.con.commit()
                 return f'fan added successfully\nfan_id is generated automatically!!!'
             else:
@@ -316,7 +326,7 @@ class DBManager:
 def main():
     filename = "database.db"
     layer = DBManager(filename)
-    # return layer
+    return layer
     # print(layer.all_match_schedules())
     # print(layer.available_tickets(10))
     # print(layer.ticket_validity(40))
@@ -325,6 +335,7 @@ def main():
     # print(layer.match_details(1,1))
     # print(layer.purchase_history(0, 1234567023))
     # print(layer.stadium_details(0, 1))
-    print(layer.register_new_fan('Subhan Ali', '3520207870000', '03084072295', 'subhanali1212w@gmail.com', 'DEBIT CARD'))
+    # print(layer.register_new_fan('Subhan Ali', '3520207870000', '03084072295', 'subhanali1212w@gmail.com', 'DEBIT CARD'))
+    # print(layer.create_new_fan_id())
 if __name__ == '__main__':
     main()
